@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Link, NavLink, useLocation } from "react-router-dom"
+import AuthStatus from "./AuthStatus"
 
 const navItems = [
     {name: 'Characters', href: '/characters'},
@@ -52,6 +53,9 @@ export default function Nav() {
                             )
                         })
                     }
+                    <li className="nav-item">
+                        <AuthStatus/>
+                    </li>
                 </ul>
             </div>
         </nav>

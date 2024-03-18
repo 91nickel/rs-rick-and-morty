@@ -18,5 +18,4 @@ export default function ListLayout({h1}: IProps) {
 
 interface IProps {
     h1: string
-    // children: ReactNode | ReactNode[]
 }
