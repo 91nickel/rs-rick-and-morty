@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useLocation, useNavigate, Link } from 'react-router-dom'
 
 import { EntityType, ICharacter, IEpisode, ILocation } from 'service/types/mock'
-import service from 'service/mock'
+import service from 'service/mock.service'
 
 import DynamicComponent from 'component/hoc/DynamicComponent'
 import ErrorBoundary from 'component/hoc/ErrorBoundary'

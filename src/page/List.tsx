@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
 
-import service from 'service/mock'
+import service from 'service/http.service'
 
 import { EntityType, ICharacter, IEpisode, ILocation } from 'service/types/mock'
 import Layout from 'layout'
 import ItemCard from 'component/ItemCard'
-import ErrorBoundary from '../component/hoc/ErrorBoundary'
+import ErrorBoundary from 'component/hoc/ErrorBoundary'
+import useEntity from "../hook/useEntity"
 
 interface IListProps {
     type: EntityType
@@ -24,11 +25,13 @@ enum Orders {
     'desc' = 'desc',
 }
 
-export default function List({type}: IListProps) {
+const List = ({type}: IListProps) => {
     const [isLoading, setIsLoading] = useState(true)
-    const [list, setList] = useState([] as Entity[])
+    const [page, setPage] = useState(true)
+    // const [list, setList] = useState([] as Entity[])
 
     const [searchParams, setSearchParams] = useSearchParams({'sort': Sorts.created, 'order': Orders.asc})
+    const {list, next, isStarted, isLoading} = useEntity(type)
 
     const sort = searchParams.get('sort') || Sorts.created
     const order = (searchParams.get('order') as Orders) || Orders.asc
@@ -40,13 +43,23 @@ export default function List({type}: IListProps) {
         })
     }
 
+    function getList(page: number) {
+        // return service.getList(type)
+        //     .then(list => {
+        //         console.log(list)
+        //         // setList(list)
+        //     })
+    }
+
+    function getMore() {
+
+    }
+
     useEffect(() => {
         setIsLoading(true)
-        service.getList(type)
-            .then(list => {
-                setList(list)
-                setIsLoading(false)
-            })
+        getList(1).then(() => {
+            setIsLoading(false)
+        })
     }, [type])
 
     if (isLoading) {
@@ -76,3 +89,5 @@ export default function List({type}: IListProps) {
         </>
     )
 }
+
+export default List
