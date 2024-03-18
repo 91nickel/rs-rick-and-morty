@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useSearchParams } from "react-router-dom"
+import { Link, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
 
 import service from 'service/mock'
 
-import { EntityType, ICharacter, IEpisode, ILocation } from "service/types/mock"
-import ItemCard from "../component/itemCard"
+import { EntityType, ICharacter, IEpisode, ILocation } from 'service/types/mock'
+import Layout from 'layout'
+import ItemCard from 'component/ItemCard'
+import ErrorBoundary from '../component/hoc/ErrorBoundary'
 
 interface IListProps {
     type: EntityType
@@ -26,12 +28,12 @@ export default function List({type}: IListProps) {
     const [isLoading, setIsLoading] = useState(true)
     const [list, setList] = useState([] as Entity[])
 
-    const [searchParams, setSearchParams] = useSearchParams({'sort' : Sorts.created, 'order': Orders.asc})
+    const [searchParams, setSearchParams] = useSearchParams({'sort': Sorts.created, 'order': Orders.asc})
 
     const sort = searchParams.get('sort') || Sorts.created
     const order = (searchParams.get('order') as Orders) || Orders.asc
 
-    function handleSortChange () {
+    function handleSortChange() {
         setSearchParams({
             order: order === Orders.asc ? Orders.desc : Orders.asc,
             sort: Sorts.created,
@@ -48,7 +50,7 @@ export default function List({type}: IListProps) {
     }, [type])
 
     if (isLoading) {
-        return <h1>Loading...</h1>
+        return <Layout.Loading/>
     }
 
     const sortedList = _.orderBy(list, sort, order)
@@ -64,7 +66,9 @@ export default function List({type}: IListProps) {
                 sortedList.map(item => {
                     return (
                         <div key={item.id} className="col-12 col-md-4 col-lg-3 py-2">
-                            <ItemCard  {...item} />
+                            <ErrorBoundary>
+                                <ItemCard  {...item} />
+                            </ErrorBoundary>
                         </div>
                     )
                 })

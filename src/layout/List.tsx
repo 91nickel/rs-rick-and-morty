@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { Outlet } from "react-router-dom";
 
-export default function ListLayout({h1}: IProps) {
+export default function List({h1}: IProps) {
     return (
         <>
             <div className="row">

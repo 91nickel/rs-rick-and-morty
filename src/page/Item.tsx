@@ -1,9 +1,11 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { useParams, useOutletContext, useLocation, useNavigate, Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useParams, useLocation, useNavigate, Link } from 'react-router-dom'
 
-import { EntityType, ICharacter, IEpisode, ILocation } from "service/types/mock"
-import service from "service/mock"
-import ItemCard from "component/itemCard"
+import { EntityType, ICharacter, IEpisode, ILocation } from 'service/types/mock'
+import service from 'service/mock'
+
+import DynamicComponent from 'component/hoc/DynamicComponent'
+import ErrorBoundary from 'component/hoc/ErrorBoundary'
 
 interface IProps {
     type: EntityType
@@ -16,8 +18,8 @@ export default function Item({type}: IProps) {
     const [isLoading, setIsLoading] = useState(true)
     const [item, setItem] = useState({} as Entity)
 
-    const location = useLocation();
-    const navigate = useNavigate();
+    const location = useLocation()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (!id) return
@@ -41,8 +43,10 @@ export default function Item({type}: IProps) {
             <div className="col-12 mb-3">
                 <Link className="btn btn-primary" to=".."> &lt; Back</Link>
             </div>
-            <div className="col-12">
-                <ItemCard {...item} />
+            <div className="col-md-6 col-12">
+                <ErrorBoundary>
+                    <DynamicComponent element="ItemCard" {...item} />
+                </ErrorBoundary>
             </div>
         </>
     )

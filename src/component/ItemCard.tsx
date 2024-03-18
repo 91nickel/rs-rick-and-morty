@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
-import { ICharacter, IEpisode, ILocation } from "service/types/mock"
-import { Link } from "react-router-dom"
+import { ICharacter, IEpisode, ILocation } from 'service/types/mock'
+import { Link } from 'react-router-dom'
 
 type EntityKey = keyof (ICharacter | ILocation | IEpisode)
 
@@ -13,7 +13,7 @@ export default function ItemCard(props: ICharacter | ILocation | IEpisode) {
     return (
         <div className="card">
             {
-                "image" in props
+                'image' in props
                 &&
                 <Link to={props.id.toString()}>
                     <img className="card-img-top" src={props.image} alt={props.name}/>
