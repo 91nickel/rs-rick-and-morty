@@ -13,5 +13,4 @@ export default function MainLayout() {
 
 interface IProps {
     h1: string
-    // children: ReactNode | ReactNode[]
 }

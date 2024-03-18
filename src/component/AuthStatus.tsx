@@ -1,13 +1,8 @@
 import React, { FunctionComponent } from 'react'
-import { useAuth } from "context/AuthProvider"
 import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from "hook/useAuth"
 
-interface OwnProps {
-}
-
-type Props = OwnProps;
-
-const AuthStatus: FunctionComponent<Props> = (props) => {
+const AuthStatus: FunctionComponent = (props) => {
     const auth = useAuth()
     const navigate = useNavigate();
 

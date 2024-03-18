@@ -1,5 +1,5 @@
 import React, { useRef, useState }       from 'react'
-import TextField                         from "./TextInput";
+import TextInput                         from "./TextInput";
 import ITextFieldCommonProps             from "interface/input.field";
 import { FieldTypes, TextFieldVariants } from 'interface/input.field'
 
@@ -78,7 +78,7 @@ const SignInForm = ({onSubmit}: IProps) => {
             {
                 formFields.map((field: IFormFieldDescription, i) => {
                     return (
-                        <TextField
+                        <TextInput
                             key={field.name}
                             {...field}
                             error={errors[field.name] || ''}

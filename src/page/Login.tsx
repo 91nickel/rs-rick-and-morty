@@ -1,6 +1,6 @@
 import React, { FormEvent, FunctionComponent } from 'react'
 import { useLocation, useNavigate } from "react-router-dom"
-import { useAuth } from "context/AuthProvider"
+import { useAuth } from "hook/useAuth"
 import SignInForm, { IFormValues } from "component/SignInForm"
 
 interface OwnProps {

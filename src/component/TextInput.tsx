@@ -1,12 +1,12 @@
-import React                                                    from 'react'
-import ITextFieldCommonProps, { FieldSizes, TextFieldVariants } from "../interface/input.field";
+import React from 'react'
+import ITextFieldCommonProps, { FieldSizes, TextFieldVariants } from '../interface/input.field'
 
 interface ITextFieldProps extends ITextFieldCommonProps {
-    onChange: Function
-    onInput: Function
+    onChange: (value: string) => void
+    onInput: (value: string) => void
 }
 
-const TextField = ({onChange, onInput, ...props}: ITextFieldProps) => {
+const TextInput = ({name, label, description, text, required, className, error, variant, radius, size, onChange, onInput, ...restProps}: ITextFieldProps) => {
 
     function handleChange(event: React.FormEvent<HTMLInputElement>) {
         const target = event.target as HTMLInputElement
@@ -15,44 +15,44 @@ const TextField = ({onChange, onInput, ...props}: ITextFieldProps) => {
 
     const getInputClasses = () => {
         const classes = []
-        if (props.variant !== TextFieldVariants.unstyled)
+        if (variant !== TextFieldVariants.unstyled)
             classes.push('form-control')
 
-        if (props.variant === TextFieldVariants.filled)
+        if (variant === TextFieldVariants.filled)
             classes.push('bg-light')
 
-        if (props.error)
+        if (error)
             classes.push('is-invalid')
 
-        classes.push(`form-control-${FieldSizes[props.size]}`)
+        classes.push(`form-control-${FieldSizes[size]}`)
 
         return classes.join(' ')
     }
 
     const style: React.CSSProperties = {
-        borderRadius: `${props.radius}px`,
+        borderRadius: `${radius}px`,
     }
 
     return (
-        <div className={props.className}>
-            <label htmlFor={props.name}>
-                {props.label}
-                {props.required && <span className="text-danger ps-1">*</span>}
+        <div className={className}>
+            <label htmlFor={name}>
+                {label}
+                {required && <span className="text-danger ps-1">*</span>}
             </label>
-            {props.description && <p><small className="text-secondary">{props.description}</small></p>}
+            {description && <p><small className="text-secondary">{description}</small></p>}
             <div className="input-group has-validation">
-                {props.text && <span className="input-group-text">{props.text}</span>}
+                {text && <span className="input-group-text">{text}</span>}
                 <input
-                    {...props}
+                    {...restProps}
                     style={style}
-                    className={props.className + ' ' + getInputClasses()}
+                    className={`${className} ${getInputClasses()}`}
                     onChange={handleChange}
                     onInput={handleChange}
                 />
-                {props.error && <div className="invalid-feedback">{props.error}</div>}
+                {error && <div className="invalid-feedback">{error}</div>}
             </div>
         </div>
     )
 }
 
-export default TextField
+export default TextInput

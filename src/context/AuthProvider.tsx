@@ -1,13 +1,9 @@
 import React, { createContext, useContext, useState } from 'react'
 import { IFormValues as IAuthFormData } from "component/SignInForm"
 
-const AuthContext: React.Context<any> = createContext({})
+export const AuthContext: React.Context<any> = createContext({})
 
-export function useAuth() {
-    return useContext(AuthContext)
-}
-
-export function AuthProvider({children}: any) {
+export default function AuthProvider({children}: any) {
 
     const [user, setUser]: [null | string, Function] = useState(localStorage.getItem('login') || null)
 
@@ -28,5 +24,4 @@ export function AuthProvider({children}: any) {
     }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-
 }
