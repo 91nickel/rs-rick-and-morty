@@ -1,11 +1,10 @@
 import React from 'react'
+import Preloader from 'component/Preloader'
 
 function Loading () {
     return (
         <div className="container d-flex justify-content-center align-items-center preloader" style={{height: '100vh'}}>
-            <div className="spinner-border" role="status" style={{width: '5rem', height: '5rem'}}>
-                <span className="visually-hidden">Loading...</span>
-            </div>
+            <Preloader />
         </div>
     )
 }

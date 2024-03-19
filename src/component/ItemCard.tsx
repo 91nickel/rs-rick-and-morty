@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { ICharacter, IEpisode, ILocation } from 'service/types/mock'
+import { ICharacter, IEpisode, ILocation } from 'type/service/mock'
 import { Link } from 'react-router-dom'
 
 type EntityKey = keyof (ICharacter | ILocation | IEpisode)

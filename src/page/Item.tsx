@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation, useNavigate, Link } from 'react-router-dom'
 
-import { EntityType, ICharacter, IEpisode, ILocation } from 'service/types/mock'
-import service from 'service/mock.service'
+import { EntityType } from 'type/list'
+import { ICharacter, IEpisode, ILocation } from 'type/service/mock'
+import service from 'service/http.service'
 
 import DynamicComponent from 'component/hoc/DynamicComponent'
 import ErrorBoundary from 'component/hoc/ErrorBoundary'
+import ICharacterResponse from '../type/list/character'
+import ILocationResponse from '../type/list/location'
+import IEpisodeResponse from '../type/list/episode'
+import normalizeEntity from '../util/normalizeEntity'
 
 interface IProps {
     type: EntityType
 }
 
+type EntityResponse = ICharacterResponse | ILocationResponse | IEpisodeResponse
 type Entity = ICharacter | ILocation | IEpisode
 
 export default function Item({type}: IProps) {
@@ -24,13 +30,16 @@ export default function Item({type}: IProps) {
     useEffect(() => {
         if (!id) return
         setIsLoading(true)
-        service.getById(type, +id)
-            .then(item => {
-                setItem(item)
-                setIsLoading(false)
+        service.get(`${type}/${id}`)
+            .then((response) => {
+                const responseItem = response.data as EntityResponse
+                setItem(normalizeEntity(type, responseItem) as Entity)
             })
             .catch(() => {
                 navigate('/notFound')
+            })
+            .finally(() => {
+                setIsLoading(false)
             })
     }, [type])
 

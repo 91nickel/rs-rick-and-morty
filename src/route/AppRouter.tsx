@@ -6,7 +6,7 @@ import Layout from 'layout'
 
 import PrivateRoute from 'component/hoc/PrivateRoute'
 
-import { EntityType } from 'service/types/mock'
+import { EntityType } from 'type/list'
 
 const AppRouter: FunctionComponent = () => {
     return (
@@ -24,7 +24,7 @@ const AppRouter: FunctionComponent = () => {
                         <Route index element={<Page.List type={EntityType.location}/>}/>
                         <Route path=":id" element={<Page.Item type={EntityType.location}/>}/>
                     </Route>
-                    <Route path="episodes" element={<Layout.List h1="Characters"/>}>
+                    <Route path="episodes" element={<Layout.List h1="Episodes"/>}>
                         <Route index element={<Page.List type={EntityType.episode}/>}/>
                         <Route path=":id" element={<Page.Item type={EntityType.episode}/>}/>
                     </Route>

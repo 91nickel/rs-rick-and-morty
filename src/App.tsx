@@ -5,7 +5,7 @@ import AuthProvider from './context/AuthProvider'
 import AppRouter from './route/AppRouter'
 
 import 'App.css'
-
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
     return (

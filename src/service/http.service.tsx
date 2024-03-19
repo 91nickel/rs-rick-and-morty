@@ -6,22 +6,22 @@ const http = axios.create({
 })
 
 http.interceptors.request.use(
-    async function (config) {
+    async function (config: any) {
         // console.log('http.service.request.interceptor.onRejected', )
         return config
     },
-    function (error) {
+    function (error: any) {
         // console.log('http.service.request.interceptor.onRejected', )
         return Promise.reject(error)
     }
 )
 
 http.interceptors.response.use(
-    function (response) {
+    function (response: any) {
         // console.log('http.service.response.interceptor.onFulfilled')
         return response
     },
-    function (error) {
+    function (error: any) {
         // console.log('http.service.response.interceptor.onRejected')
         const expectedErrors = error.response && error.response.status >= 400 && error.response.status < 500
         if (!expectedErrors) {
@@ -38,7 +38,6 @@ const service = {
     put: http.put,
     patch: http.patch,
     delete: http.delete,
-
 }
 
 export default service

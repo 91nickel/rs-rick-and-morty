@@ -1,11 +1,13 @@
 import episodes from 'mock/episode.json'
 import locations from 'mock/location.json'
 import characters from 'mock/characters.json'
-import ICharacterMock from "mock/types/character"
-import ILocationMock from "mock/types/location"
-import IEpisodeMock from "mock/types/episode"
 
-import { EntityType, ICharacter, IEpisode, ILocation } from "./types/mock"
+import ICharacterMock from 'type/mock/character'
+import ILocationMock from 'type/mock/location'
+import IEpisodeMock from 'type/mock/episode'
+
+import { EntityType } from 'type/list'
+import { ICharacter, IEpisode, ILocation } from 'type/service/mock'
 
 const service = {
     getList: (type: EntityType): Promise<Array<ICharacter | ILocation | IEpisode>> => {

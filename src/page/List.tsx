@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useRef, useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import _ from 'lodash'
 
-import service from 'service/http.service'
-
-import { EntityType, ICharacter, IEpisode, ILocation } from 'service/types/mock'
 import Layout from 'layout'
-import ItemCard from 'component/ItemCard'
 import ErrorBoundary from 'component/hoc/ErrorBoundary'
-import useEntity from "../hook/useEntity"
+import ItemCard from 'component/ItemCard'
+import Preloader from 'component/Preloader'
+
+import useList from 'hook/useList'
+
+import { EntityType, ICharacter, IEpisode, ILocation } from 'type/list'
+
 
 interface IListProps {
     type: EntityType
@@ -26,15 +28,39 @@ enum Orders {
 }
 
 const List = ({type}: IListProps) => {
-    const [isLoading, setIsLoading] = useState(true)
-    const [page, setPage] = useState(true)
-    // const [list, setList] = useState([] as Entity[])
-
     const [searchParams, setSearchParams] = useSearchParams({'sort': Sorts.created, 'order': Orders.asc})
-    const {list, next, isStarted, isLoading} = useEntity(type)
+    const {list, next, isStarted, isLoading, isError} = useList(type)
 
     const sort = searchParams.get('sort') || Sorts.created
     const order = (searchParams.get('order') as Orders) || Orders.asc
+
+    const observer: React.MutableRefObject<undefined | IntersectionObserver> = useRef()
+
+    const lastNodeRef = useCallback((node: any) => {
+        console.log('useCallback', type, node)
+        if (isLoading) {
+            console.log('#### Loading. Do nothing...')
+            return
+        }
+
+        if (observer.current) {
+            console.log('#### Disconnect observer')
+            observer.current.disconnect()
+        }
+
+        observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                console.log('#### VISIBLE:', entries[0])
+                next()
+            }
+        })
+
+        if (node) {
+            console.log('#### setting observer')
+            observer.current.observe(node)
+        }
+
+    }, [type, isLoading])
 
     function handleSortChange() {
         setSearchParams({
@@ -43,27 +69,12 @@ const List = ({type}: IListProps) => {
         })
     }
 
-    function getList(page: number) {
-        // return service.getList(type)
-        //     .then(list => {
-        //         console.log(list)
-        //         // setList(list)
-        //     })
-    }
-
-    function getMore() {
-
-    }
-
-    useEffect(() => {
-        setIsLoading(true)
-        getList(1).then(() => {
-            setIsLoading(false)
-        })
-    }, [type])
-
-    if (isLoading) {
+    if (!isStarted) {
         return <Layout.Loading/>
+    }
+
+    if (isError) {
+        return <Layout.Error/>
     }
 
     const sortedList = _.orderBy(list, sort, order)
@@ -76,15 +87,25 @@ const List = ({type}: IListProps) => {
                 </button>
             </div>
             {
-                sortedList.map(item => {
+                sortedList.map((item, i, arr) => {
                     return (
-                        <div key={item.id} className="col-12 col-md-4 col-lg-3 py-2">
+                        <div
+                            key={item.id}
+                            ref={i === arr.length - 1 ? lastNodeRef : null}
+                            className="col-12 col-md-4 col-lg-3 py-2">
                             <ErrorBoundary>
-                                <ItemCard  {...item} />
+                                <ItemCard {...item} />
                             </ErrorBoundary>
                         </div>
                     )
                 })
+            }
+            {
+                isLoading
+                &&
+                <div className="col-12 d-flex justify-content-center my-3" style={{height: '100px'}}>
+                    <Preloader/>
+                </div>
             }
         </>
     )
