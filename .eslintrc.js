@@ -18,6 +18,7 @@ module.exports = {
         "react/no-unescaped-entities": 0,
         'no-extra-boolean-cast': 'off',
         'comma-dangle': 'off',
+        "react/prop-types": "off",
         // 'no-unused-vars': 0,
     }
 }

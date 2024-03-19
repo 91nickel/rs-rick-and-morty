@@ -1,7 +1,8 @@
 import React, { FormEvent, FunctionComponent } from 'react'
-import { useLocation, useNavigate } from "react-router-dom"
-import { useAuth } from "hook/useAuth"
-import SignInForm, { IFormValues } from "component/SignInForm"
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from 'hook/useAuth'
+import SignInForm, { IFormValues } from 'component/SignInForm'
+import ErrorBoundary from '../component/hoc/ErrorBoundary'
 
 interface OwnProps {
 }
@@ -24,7 +25,9 @@ const Login: FunctionComponent<Props> = (props) => {
         <div className="row justify-content-center">
             <div className="col-12 col-md-6">
                 <h1>Auth</h1>
-                <SignInForm onSubmit={handleSubmit}/>
+                <ErrorBoundary>
+                    <SignInForm onSubmit={handleSubmit}/>
+                </ErrorBoundary>
             </div>
         </div>
     )

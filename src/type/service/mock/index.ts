@@ -1,12 +1,6 @@
-import IEpisodeMock from "mock/types/episode"
-import ILocationMock from "mock/types/location"
-import ICharacterMock from "mock/types/character"
-
-export enum EntityType {
-    episode= 'episode',
-    location= 'location',
-    character= 'character',
-}
+import IEpisodeMock from "type/mock/episode"
+import ILocationMock from "type/mock/location"
+import ICharacterMock from "type/mock/character"
 
 export interface IEpisode extends Omit<IEpisodeMock, 'created'> {
     created: Date
